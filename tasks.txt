@@ -1,0 +1,119 @@
+🎧 DJ Electrohead — App Description
+DJ Electrohead is a browser-based interactive DJ simulator with two distinct game modes, where users perform for an AI-judged virtual crowd. Players aim to keep the vibe meter high, using music to engage and entertain.
+
+🎮 Game Modes:
+Crowdplay Mode
+Users play songs using the Spotify Web API. The AI crowd, powered by Nebius AI Studio, rates your vibe based on how well each track maintains energy and flow. Higher vibe levels unlock more animated reactions from the DJ and crowd.
+
+Strudel Mode
+Users drag and drop pre-made musical loops (powered by Strudel) to build a mix live. Each combination is scored by the AI for creativity and rhythm. The DJ and vibe meter respond accordingly.
+
+📋 Phase-by-Phase Task Sheet
+
+Phase 0: Initial Setup
+Vite + React app initialized.
+
+Vanilla CSS structure prepared.
+
+Assets collected:
+
+DJ sprites (idle, wave, dance).
+
+Crowd gif.
+
+🔹 Phase 1: Core Layout & Routing
+Implement app layout:
+
+Fixed DJ sprite at top, background gradient.
+
+Below: game content section (depending on selected mode).
+
+Footer or header: gamemode switcher (Crowdplay / Strudel).
+
+Add React Router for page-based gamemodes.
+
+🔹 Phase 2: Crowdplay Mode (Spotify Integration)
+Integrate Spotify Web API:
+
+Authenticate or use preview mode.
+
+Allow users to browse/play tracks.
+
+Show track details: cover art, title, artist.
+
+On track play:
+
+Send metadata to Nebius AI scoring endpoint.
+
+Receive and update vibe meter value.
+
+Adjust DJ sprite:
+
+Low vibe → idle
+
+Medium → wave
+
+High → dance
+
+Show chat bubble emojis above crowd based on vibe:
+
+Low → 😐
+
+Medium → 😊
+
+High → 🔥
+
+🔹 Phase 3: Strudel Mode (Drag-and-Drop Mix)
+Integrate Strudel (browser runtime).
+
+Display a set of pre-made music blocks/loops as draggable tiles.
+
+Create a simple drop zone to form a “mix stack.”
+
+When user starts mix:
+
+Playback combined loops using Strudel.
+
+Send metadata to Nebius AI.
+
+Receive vibe rating.
+
+Update:
+
+DJ sprite (idle → wave → dance).
+
+Crowd emojis accordingly.
+
+🔹 Phase 4: Vibe Meter & Scoring Logic
+Implement real-time vibe meter:
+
+Smooth transitions.
+
+Persistent across both modes.
+
+End-of-session scoring summary:
+
+Total duration at each vibe level.
+
+Final “DJ Rank” or rating.
+
+Buttons:
+
+Restart Performance
+
+Switch Mode
+
+🔹 Phase 5: Visual Polish & Game Flow
+Finalize CSS for all views:
+
+Gradient backgrounds, UI containers, animations.
+
+Add subtle effects:
+
+Crowd gif pulsing.
+
+Emojis fade in/out.
+
+Add basic onboarding/tutorial popup for first-time users.
+
+Let the crowd gif be background kinda so the DJ can be at the top middle. Crop the top of the crowd gif.
