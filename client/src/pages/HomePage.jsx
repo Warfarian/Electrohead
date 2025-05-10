@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { handleRedirect } from '../utils/spotify';
 import LoadingSpinner from '../components/LoadingSpinner';
-import djDisplaySprite from '../assets/dj-idle-vibe-trans.gif';
 
 const HomePage = () => {
   const location = useLocation();
@@ -99,7 +98,6 @@ const HomePage = () => {
       {!showModes ? (
         <div className="welcome-screen">
           <h1>DJ ELECTROHEAD</h1>
-          <img src={djDisplaySprite} alt="DJ" className="welcome-dj" />
           <button 
             className="action-button"
             onClick={handlePlay}

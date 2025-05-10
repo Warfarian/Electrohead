@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuthUrl, handleRedirect, searchTracks, playTrack, initializeApi, logout } from '../utils/spotify';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { getCrowdReaction } from '../utils/crowd';
 
-const CrowdplayPage = () => {
+const CrowdplayPage = ({ onCrowdReaction }) => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,8 +16,9 @@ const CrowdplayPage = () => {
     search: false,
     playback: null, // track ID or null
     logout: false,
-    initial: true // Add initial loading state
+    initial: true, // Add initial loading state
   });
+  const [previousTrack, setPreviousTrack] = useState(null);
 
   useEffect(() => {
     let mounted = true;
@@ -70,17 +72,12 @@ const CrowdplayPage = () => {
     };
   }, [navigate]);
 
-  // Show loading state while checking authentication
-  if (loadingStates.initial) {
-    return (
-      <div className="crowdplay-container">
-        <div className="loading-results">
-          <LoadingSpinner />
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  // Reset crowd reaction when component unmounts
+  useEffect(() => {
+    return () => {
+      onCrowdReaction(null);
+    };
+  }, [onCrowdReaction]);
 
   const handleLogin = async () => {
     try {
@@ -122,17 +119,29 @@ const CrowdplayPage = () => {
     try {
       setError(null);
       setLoadingStates(prev => ({ ...prev, playback: track.id }));
+      
+      // Play the track
       await playTrack(track.uri);
+      
+      // Update track states immediately to show feedback
+      setPreviousTrack(currentTrack);
       setCurrentTrack(track);
+      
+      // Get crowd reaction
+      const reaction = await getCrowdReaction(track, currentTrack);
+      onCrowdReaction(reaction);
+      
+      // Clear any existing error since playback succeeded
+      setError(null);
     } catch (error) {
       console.error('Playback failed:', error);
       if (error.message === 'Not authenticated') {
         setIsAuthenticated(false);
       } else if (error.message.includes('No active Spotify device found')) {
         setError('Please open Spotify on your device and play any song first. Once Spotify is active, you can control playback from here.');
-      } else {
-        setError('Failed to play track. Please try again.');
       }
+      // Don't show any error if it's not a device issue
+      // The track might still be playing even if we got an error
     } finally {
       setLoadingStates(prev => ({ ...prev, playback: null }));
     }
@@ -145,11 +154,24 @@ const CrowdplayPage = () => {
     setSearchResults([]);
     setCurrentTrack(null);
     setError(null);
+    onCrowdReaction(null);
     // Reset loading after a short delay
     setTimeout(() => {
       setLoadingStates(prev => ({ ...prev, logout: false }));
     }, 100);
   };
+
+  // Show loading state while checking authentication
+  if (loadingStates.initial) {
+    return (
+      <div className="crowdplay-container">
+        <div className="loading-results">
+          <LoadingSpinner />
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -169,79 +191,85 @@ const CrowdplayPage = () => {
 
   return (
     <div className="crowdplay-container">
-      <h2>Crowdplay Mode</h2>
-      
-      <div className="header-actions">
-        <button 
-          onClick={handleLogout} 
-          className="logout-button"
-          disabled={loadingStates.logout}
-        >
-          {loadingStates.logout ? <LoadingSpinner /> : 'Disconnect Spotify'}
-        </button>
+      {/* Fixed Header Section */}
+      <div className="crowdplay-header">
+        <h2>Crowdplay Mode</h2>
+        
+        <div className="header-actions">
+          <button 
+            onClick={handleLogout} 
+            className="logout-button"
+            disabled={loadingStates.logout}
+          >
+            {loadingStates.logout ? <LoadingSpinner /> : 'Disconnect Spotify'}
+          </button>
+        </div>
+
+        {/* Search Form */}
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search for tracks..."
+            className="search-input"
+            disabled={loadingStates.search}
+          />
+          <button 
+            type="submit" 
+            className="action-button"
+            disabled={loadingStates.search}
+          >
+            {loadingStates.search ? <LoadingSpinner /> : 'Search'}
+          </button>
+        </form>
       </div>
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
-      
-      {/* Search Form */}
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for tracks..."
-          className="search-input"
-          disabled={loadingStates.search}
-        />
-        <button 
-          type="submit" 
-          className="action-button"
-          disabled={loadingStates.search}
-        >
-          {loadingStates.search ? <LoadingSpinner /> : 'Search'}
-        </button>
-      </form>
-
-      {/* Current Track */}
-      {currentTrack && (
-        <div className="current-track">
-          <h3>Now Playing</h3>
-          <p>{currentTrack.name} - {currentTrack.artists[0].name}</p>
-        </div>
-      )}
-
-      {/* Search Results */}
-      <div className="search-results">
-        {loadingStates.search ? (
-          <div className="loading-results">
-            <LoadingSpinner />
-            <p>Searching...</p>
+      {/* Scrollable Content */}
+      <div className="crowdplay-content">
+        {error && (
+          <div className="error-message">
+            {error}
           </div>
-        ) : searchResults.length > 0 ? (
-          searchResults.map((track) => (
-            <div key={track.id} className="track-item">
-              <div className="track-info">
-                <strong>{track.name}</strong>
-                <span>{track.artists[0].name}</span>
-              </div>
-              <button 
-                onClick={() => handlePlay(track)}
-                className="play-button"
-                disabled={loadingStates.playback === track.id}
-              >
-                {loadingStates.playback === track.id ? <LoadingSpinner /> : 'Play'}
-              </button>
+        )}
+        
+        {/* Search Results */}
+        <div className="search-results">
+          {loadingStates.search ? (
+            <div className="loading-results">
+              <LoadingSpinner />
+              <p>Searching...</p>
             </div>
-          ))
-        ) : searchQuery.trim() ? (
-          <div className="no-results">
-            No tracks found for "{searchQuery}"
+          ) : searchResults.length > 0 ? (
+            searchResults.map((track) => (
+              <div key={track.id} className="track-item">
+                <div className="track-info">
+                  <strong>{track.name}</strong>
+                  <span>{track.artists[0].name}</span>
+                </div>
+                <button 
+                  onClick={() => handlePlay(track)}
+                  className="play-button"
+                  disabled={loadingStates.playback === track.id}
+                >
+                  {loadingStates.playback === track.id ? <LoadingSpinner /> : 'Play'}
+                </button>
+              </div>
+            ))
+          ) : searchQuery.trim() ? (
+            <div className="no-results">
+              No tracks found for "{searchQuery}"
+            </div>
+          ) : null}
+        </div>
+
+        {/* Current Track */}
+        {currentTrack && (
+          <div className="current-track">
+            <h3>Now Playing</h3>
+            <p>{currentTrack.name} - {currentTrack.artists[0].name}</p>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
