@@ -540,43 +540,81 @@
 .vibe-meter {
   position: fixed;
   left: 20px;
-  top: 440px;
+  top: 400px;
   width: 400px;
   background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 12px;
+  padding: 15px;
   text-align: center;
   z-index: 10;
   backdrop-filter: blur(4px);
-}
-
-.vibe-meter-bar {
-  width: 100%;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 3px;
-  overflow: hidden;
-  margin: 6px 0;
-}
-
-.vibe-meter-fill {
-  height: 100%;
-  background: linear-gradient(90deg, 
-    #ff0000 0%,
-    #ff8800 20%,
-    #ffff00 40%,
-    #00ff00 60%,
-    #00ffff 80%,
-    #ff00ff 100%
-  );
-  transition: width 0.5s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+              inset 0 0 2px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .vibe-meter-label {
   color: #fff;
   font-size: 0.9rem;
-  margin: 0;
-  opacity: 0.8;
+  margin: 0 0 8px;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.vibe-meter-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 6px 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.vibe-meter-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  border-radius: 4px 4px 0 0;
+}
+
+.vibe-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    #ff1b1b 0%,
+    #ff8f17 20%,
+    #ffd700 40%,
+    #00ff66 60%,
+    #00ffff 80%,
+    #ff00ff 100%
+  );
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 /* Scrollbar Styling */
