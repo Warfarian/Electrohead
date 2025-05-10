@@ -135,4 +135,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# tasks.txt
+tasks.txt
+
+knowledge.md
