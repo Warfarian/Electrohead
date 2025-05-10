@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { defaultPatterns } from '../utils/strudel';
 
@@ -10,6 +10,7 @@ import '@strudel/embed';
 const StrudelPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPattern, setSelectedPattern] = useState('basic');
+  const [vibeScore, setVibeScore] = useState(5);
 
   // Create URL-safe pattern
   const getStrudelUrl = (pattern) => {
@@ -21,7 +22,33 @@ const StrudelPage = () => {
   const handlePatternChange = (pattern) => {
     setSelectedPattern(pattern);
     setIsLoading(true);
+    
+    // Mock crowd reaction based on pattern complexity
+    const pattern_complexity = defaultPatterns[pattern].split('\n').length;
+    const new_score = Math.min(5 + (pattern_complexity / 2), 10);
+    
+    // Update vibe score with a delay to simulate processing
+    setTimeout(() => {
+      setVibeScore(new_score);
+      // Update parent component's crowd reaction
+      window.dispatchEvent(new CustomEvent('crowdReactionUpdate', { 
+        detail: {
+          reaction: new_score >= 8 ? "Crowd goes wild!" : 
+                   new_score >= 6 ? "Nice groove!" : 
+                   "Warming up...",
+          message: new_score >= 8 ? "The crowd is loving this complex pattern!" :
+                  new_score >= 6 ? "The rhythm is getting people moving." :
+                  "The crowd is waiting to see where this goes...",
+          score: new_score
+        }
+      }));
+    }, 1000);
   };
+
+  // Initial crowd reaction
+  useEffect(() => {
+    handlePatternChange(selectedPattern);
+  }, []);
 
   return (
     <div className="strudel-container">

@@ -17,6 +17,7 @@ function App() {
   const isWelcomeScreen = location.pathname === '/' && !location.search.includes('showModes=true');
   const isModeSelectionScreen = location.pathname === '/' && location.search.includes('showModes=true');
   const isCrowdplayMode = location.pathname === '/crowdplay';
+  const isStrudelMode = location.pathname === '/strudel';
 
   // Lift state up for vibe meter and crowd reaction
   const [crowdReaction, setCrowdReaction] = useState(null);
@@ -36,17 +37,31 @@ function App() {
     setDjSprite(getDjSprite(crowdReaction?.score));
   }, [crowdReaction]);
 
-  // Reset DJ sprite when leaving Crowdplay mode
+  // Listen for crowd reaction updates from Strudel mode
   useEffect(() => {
-    if (!isCrowdplayMode) {
+    const handleCrowdReactionUpdate = (event) => {
+      if (isStrudelMode) {
+        setCrowdReaction(event.detail);
+      }
+    };
+
+    window.addEventListener('crowdReactionUpdate', handleCrowdReactionUpdate);
+    return () => {
+      window.removeEventListener('crowdReactionUpdate', handleCrowdReactionUpdate);
+    };
+  }, [isStrudelMode]);
+
+  // Reset DJ sprite when leaving Crowdplay or Strudel mode
+  useEffect(() => {
+    if (!isCrowdplayMode && !isStrudelMode) {
       setDjSprite(djIdleSprite);
       setCrowdReaction(null);
     }
-  }, [isCrowdplayMode]);
+  }, [isCrowdplayMode, isStrudelMode]);
 
   // Render vibe meter if we have a crowd reaction
   const renderVibeMeter = () => {
-    if (!crowdReaction || !isCrowdplayMode) return null;
+    if (!crowdReaction || (!isCrowdplayMode && !isStrudelMode)) return null;
     
     const score = crowdReaction.score;
     const percentage = (score / 10) * 100;
@@ -85,7 +100,7 @@ function App() {
       {renderVibeMeter()}
 
       {/* Crowd Reaction */}
-      {crowdReaction && isCrowdplayMode && (
+      {crowdReaction && (isCrowdplayMode || isStrudelMode) && (
         <div className="crowd-reaction">
           <div className="reaction-header">
             <h3>{crowdReaction.reaction}</h3>
