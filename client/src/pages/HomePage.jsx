@@ -9,10 +9,17 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [navigatingTo, setNavigatingTo] = useState('');
   const [initialLoading, setInitialLoading] = useState(true);
+  const [highScores, setHighScores] = useState([]);
   
   // Initialize showModes based on URL query parameter
   const initialShowModes = new URLSearchParams(location.search).get('showModes') === 'true';
   const [showModes, setShowModes] = useState(initialShowModes);
+
+  // Load high scores
+  useEffect(() => {
+    const scores = JSON.parse(localStorage.getItem('highScores') || '[]');
+    setHighScores(scores);
+  }, []);
 
   // Effect to handle Spotify redirect
   useEffect(() => {
@@ -81,6 +88,17 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   };
 
+  // Format date for display
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   // Show loading state while checking auth
   if (initialLoading) {
     return (
@@ -97,14 +115,68 @@ const HomePage = () => {
     <div className="home-content">
       {!showModes ? (
         <div className="welcome-screen">
-          <h1>DJ ELECTROHEAD</h1>
+          <h1>
+            <span>DJ</span>
+            <span>ELECTROHEAD</span>
+          </h1>
+          
+          {/* How to Play Section */}
+          <div className="how-to-play">
+            <h2>HOW TO PLAY</h2>
+            <div className="instruction-list">
+              <div className="instruction-item">
+                <span className="instruction-number">1UP</span>
+                <span className="instruction-text">Choose your mode: CROWDPLAY or STRUDEL</span>
+              </div>
+              <div className="instruction-item">
+                <span className="instruction-number">2UP</span>
+                <span className="instruction-text">Keep the crowd hyped with perfect track selection</span>
+              </div>
+              <div className="instruction-item">
+                <span className="instruction-number">3UP</span>
+                <span className="instruction-text">Watch the vibe meter and adjust your strategy</span>
+              </div>
+              <div className="instruction-item">
+                <span className="instruction-number">BONUS</span>
+                <span className="instruction-text">Chain similar vibes for combo multipliers!</span>
+              </div>
+            </div>
+          </div>
+
           <button 
             className="action-button"
             onClick={handlePlay}
             disabled={isLoading}
           >
-            {isLoading ? <LoadingSpinner /> : 'PLAY'}
+            {isLoading ? <LoadingSpinner /> : 'PRESS START'}
           </button>
+
+          {/* Game Features Section */}
+          <div className="game-features">
+            <h2>FEATURES</h2>
+            <div className="feature-grid">
+              <div className="feature-item">
+                <div className="feature-icon">🎵</div>
+                <div className="feature-title">AI DJ CROWD</div>
+                <div className="feature-description">Smart crowd reactions to your music choices</div>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">🎮</div>
+                <div className="feature-title">DUAL MODES</div>
+                <div className="feature-description">Spotify mixing or live beat creation</div>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">⚡</div>
+                <div className="feature-title">VIBE METER</div>
+                <div className="feature-description">Real-time crowd energy tracking</div>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">🏆</div>
+                <div className="feature-title">SCORE SYSTEM</div>
+                <div className="feature-description">Compete for the highest DJ score</div>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="mode-selection">
@@ -141,6 +213,23 @@ const HomePage = () => {
               </div>
             </div>
           </div>
+
+          {/* High Scores Section - Moved here */}
+          {highScores.length > 0 && (
+            <div className="high-scores">
+              <h2>HIGH SCORES</h2>
+              <div className="scores-list">
+                {highScores.map((score, index) => (
+                  <div key={index} className="score-item">
+                    <span className="score-rank">#{index + 1}</span>
+                    <span className="score-points">{score.score}</span>
+                    <span className="score-mode">{score.mode}</span>
+                    <span className="score-date">{formatDate(score.date)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

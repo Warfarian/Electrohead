@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './App.css';
 import crowdGif from './assets/crowd.gif';
@@ -14,14 +14,23 @@ import StrudelPage from './pages/StrudelPage';
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isWelcomeScreen = location.pathname === '/' && !location.search.includes('showModes=true');
   const isModeSelectionScreen = location.pathname === '/' && location.search.includes('showModes=true');
   const isCrowdplayMode = location.pathname === '/crowdplay';
   const isStrudelMode = location.pathname === '/strudel';
 
+  // Add state for menu expansion
+  const [isMenuExpanded, setIsMenuExpanded] = useState(false);
+
   // Lift state up for vibe meter and crowd reaction
   const [crowdReaction, setCrowdReaction] = useState(null);
   const [djSprite, setDjSprite] = useState(djIdleSprite);
+  const [score, setScore] = useState(() => {
+    const savedScore = localStorage.getItem('currentScore');
+    return savedScore ? parseInt(savedScore, 10) : 0;
+  });
+  const [previousScore, setPreviousScore] = useState(0);
 
   // Helper function to get DJ sprite based on score
   const getDjSprite = (score) => {
@@ -36,6 +45,24 @@ function App() {
   useEffect(() => {
     setDjSprite(getDjSprite(crowdReaction?.score));
   }, [crowdReaction]);
+
+  // Update score when crowd reaction changes
+  useEffect(() => {
+    if (crowdReaction?.score) {
+      const currentScore = crowdReaction.score;
+      const scoreDiff = Math.round((currentScore - previousScore) * 100);
+      
+      if (scoreDiff !== 0) { // Only update if there's a change
+        setScore(prevScore => {
+          const newScore = Math.max(0, prevScore + scoreDiff);
+          localStorage.setItem('currentScore', newScore.toString());
+          return newScore;
+        });
+      }
+      
+      setPreviousScore(currentScore);
+    }
+  }, [crowdReaction?.score, previousScore]);
 
   // Listen for crowd reaction updates from Strudel mode
   useEffect(() => {
@@ -59,12 +86,44 @@ function App() {
     }
   }, [isCrowdplayMode, isStrudelMode]);
 
+  const handleEndGame = () => {
+    const finalScore = score;
+    const highScores = JSON.parse(localStorage.getItem('highScores') || '[]');
+    
+    // Add new score with timestamp and mode
+    highScores.push({
+      score: finalScore,
+      date: new Date().toISOString(),
+      mode: isStrudelMode ? 'Strudel' : 'Crowdplay'
+    });
+    
+    // Sort high scores and keep top 10
+    highScores.sort((a, b) => b.score - a.score);
+    const topScores = highScores.slice(0, 10);
+    
+    // Save high scores and clean up current score
+    localStorage.setItem('highScores', JSON.stringify(topScores));
+    localStorage.removeItem('currentScore');
+    
+    // Show final score alert
+    alert(`Game Over!\nFinal Score: ${finalScore}`);
+    
+    // Reset states
+    setScore(0);
+    setPreviousScore(0);
+    setCrowdReaction(null);
+    setIsMenuExpanded(false);
+    
+    // Navigate to home
+    navigate('/');
+  };
+
   // Render vibe meter if we have a crowd reaction
   const renderVibeMeter = () => {
     if (!crowdReaction || (!isCrowdplayMode && !isStrudelMode)) return null;
     
-    const score = crowdReaction.score;
-    const percentage = (score / 10) * 100;
+    const currentScore = crowdReaction.score;
+    const percentage = (currentScore / 10) * 100;
     
     return (
       <div className="vibe-meter">
@@ -86,8 +145,29 @@ function App() {
         <img src={crowdGif} alt="Crowd" className="crowd-gif" />
       </div>
 
-      {/* Back Arrow - Show except on welcome screen */}
-      {!isWelcomeScreen && <BackArrow />}
+      {/* Back Arrow and Game Controls - Show except on welcome screen */}
+      {!isWelcomeScreen && (
+        <div className="game-controls">
+          <BackArrow />
+          {(isCrowdplayMode || isStrudelMode) && (
+            <>
+              <button 
+                className="menu-toggle"
+                onClick={() => setIsMenuExpanded(!isMenuExpanded)}
+                aria-label={isMenuExpanded ? "Hide menu" : "Show menu"}
+              >
+                {isMenuExpanded ? "×" : "☰"}
+              </button>
+              <div className={`game-controls-group ${isMenuExpanded ? 'expanded' : ''}`}>
+                <div className="current-score">Score: {score}</div>
+                <button onClick={handleEndGame} className="end-game-button">
+                  END
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       {/* DJ Area - Hide on welcome screen and mode selection screen */}
       {!isWelcomeScreen && !isModeSelectionScreen && (
