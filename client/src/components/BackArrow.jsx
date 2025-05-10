@@ -36,7 +36,12 @@ const BackArrow = () => {
       onClick={handleBack}
       disabled={isLoading}
     >
-      {isLoading ? <LoadingSpinner /> : '← BACK'}
+      {isLoading ? <LoadingSpinner /> : (
+        <span className="back-arrow-content">
+          <span className="back-arrow-symbol">←</span>
+          <span className="back-arrow-text">BACK</span>
+        </span>
+      )}
     </button>
   );
 };

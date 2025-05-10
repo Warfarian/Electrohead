@@ -99,10 +99,37 @@
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  line-height: 1;
 }
 
 .back-arrow:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.back-arrow-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 20px;
+  position: relative;
+  top: 1px;
+}
+
+.back-arrow-symbol,
+.back-arrow-text {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+}
+
+.back-arrow-symbol {
+  font-size: 1.1em;
+  position: relative;
+  top: -1px;
 }
 
 /* Home Content */
