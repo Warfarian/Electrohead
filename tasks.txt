@@ -82,7 +82,7 @@ Update:
 
 DJ sprite (idle → wave → dance).
 
-Crowd emojis accordingly.
+Vibe meter accordingly.
 
 🔹 Phase 4: Vibe Meter & Scoring Logic
 Implement real-time vibe meter:
@@ -108,12 +108,4 @@ Finalize CSS for all views:
 
 Gradient backgrounds, UI containers, animations.
 
-Add subtle effects:
-
-Crowd gif pulsing.
-
-Emojis fade in/out.
-
 Add basic onboarding/tutorial popup for first-time users.
-
-Let the crowd gif be background kinda so the DJ can be at the top middle. Crop the top of the crowd gif.

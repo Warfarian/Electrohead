@@ -617,6 +617,67 @@
   }
 }
 
+/* Strudel Styles */
+.strudel-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.strudel-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+  border-radius: 12px 12px 0 0;
+}
+
+.strudel-header h2 {
+  margin: 0 0 20px 0;
+  font-size: 1.8rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.strudel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 0;
+}
+
+.strudel-repl {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Override Strudel REPL styles to match our theme */
+.strudel-repl :global(.cm-editor) {
+  background: transparent !important;
+}
+
+.strudel-repl :global(.cm-gutters) {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
 /* Scrollbar Styling */
 .crowdplay-content::-webkit-scrollbar,
 .search-results::-webkit-scrollbar {
@@ -645,4 +706,57 @@ button:disabled,
 .search-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Strudel Controls */
+.controls-panel {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pattern-selector,
+.bpm-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pattern-selector label,
+.bpm-control label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.pattern-selector select,
+.bpm-control input {
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  min-width: 100px;
+}
+
+.bpm-control input {
+  width: 80px;
+}
+
+.pattern-selector select:focus,
+.bpm-control input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.playback-controls {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
 }

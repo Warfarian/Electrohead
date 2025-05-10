@@ -10,6 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/basic-setup": "^0.20.0",
+    "@codemirror/lang-javascript": "^6.2.3",
+    "@strudel/core": "^1.2.0",
+    "@strudel/embed": "^1.1.0",
+    "@strudel/repl": "^1.2.1",
+    "@strudel/transpiler": "^1.2.0",
+    "@strudel/web": "^1.2.1",
+    "@strudel/webaudio": "^1.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.3",
