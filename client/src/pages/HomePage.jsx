@@ -197,6 +197,7 @@ const HomePage = () => {
                 how well each track maintains energy and flow.
               </div>
             </div>
+            
             <div className="mode-button-container">
               <Link 
                 to="/strudel" 
@@ -210,6 +211,22 @@ const HomePage = () => {
               <div className="mode-description">
                 Build a mix live by combining musical loops. AI scores your
                 creativity and rhythm.
+              </div>
+            </div>
+
+            <div className="mode-button-container">
+              <Link 
+                to="/mixing" 
+                className="mode-button"
+                tabIndex={isLoading ? -1 : 0}
+                style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+                onClick={() => handleModeSelect('mixing')}
+              >
+                {navigatingTo === 'mixing' ? <LoadingSpinner /> : 'MIXING MODE'}
+              </Link>
+              <div className="mode-description">
+                Load your own tracks and mix them live with professional DJ controls.
+                The crowd reacts to your mixing skills in real-time.
               </div>
             </div>
           </div>

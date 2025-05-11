@@ -2,15 +2,15 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './App.css';
 import crowdGif from './assets/crowd.gif';
-import djIdleSprite from './assets/dj-idle.gif';
-import djIdleVibeSprite from './assets/dj-idle-vibe-trans.gif';
-import djWaveSprite from './assets/dj-wave-trans.gif';
-import djCelebSprite from './assets/dj-celeb-trans.gif';
+import djIdleGif from './assets/dj-idle-vibe-trans.gif';
+import djWaveGif from './assets/dj-wave-trans.gif';
+import djCelebGif from './assets/dj-celeb-trans.gif';
 
 import BackArrow from './components/BackArrow';
 import HomePage from './pages/HomePage';
 import CrowdplayPage from './pages/CrowdplayPage';
 import StrudelPage from './pages/StrudelPage';
+import MixingPage from './pages/MixingPage';
 
 function App() {
   const location = useLocation();
@@ -19,32 +19,18 @@ function App() {
   const isModeSelectionScreen = location.pathname === '/' && location.search.includes('showModes=true');
   const isCrowdplayMode = location.pathname === '/crowdplay';
   const isStrudelMode = location.pathname === '/strudel';
+  const isMixingMode = location.pathname === '/mixing';
 
   // Add state for menu expansion
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
 
   // Lift state up for vibe meter and crowd reaction
   const [crowdReaction, setCrowdReaction] = useState(null);
-  const [djSprite, setDjSprite] = useState(djIdleSprite);
   const [score, setScore] = useState(() => {
     const savedScore = localStorage.getItem('currentScore');
     return savedScore ? parseInt(savedScore, 10) : 0;
   });
   const [previousScore, setPreviousScore] = useState(0);
-
-  // Helper function to get DJ sprite based on score
-  const getDjSprite = (score) => {
-    if (!score) return djIdleSprite;
-    if (score >= 8.5) return djCelebSprite;
-    if (score >= 7.0) return djWaveSprite;
-    if (score >= 5.0) return djIdleVibeSprite;
-    return djIdleSprite;
-  };
-
-  // Update DJ sprite when crowd reaction changes
-  useEffect(() => {
-    setDjSprite(getDjSprite(crowdReaction?.score));
-  }, [crowdReaction]);
 
   // Update score when crowd reaction changes
   useEffect(() => {
@@ -78,10 +64,9 @@ function App() {
     };
   }, [isStrudelMode]);
 
-  // Reset DJ sprite when leaving Crowdplay or Strudel mode
+  // Reset crowd reaction when leaving Crowdplay or Strudel mode
   useEffect(() => {
     if (!isCrowdplayMode && !isStrudelMode) {
-      setDjSprite(djIdleSprite);
       setCrowdReaction(null);
     }
   }, [isCrowdplayMode, isStrudelMode]);
@@ -138,12 +123,32 @@ function App() {
     );
   };
 
+  // Get current DJ animation based on vibe score
+  const getDjAnimation = () => {
+    if (!crowdReaction?.score) return djIdleGif;
+    const score = crowdReaction.score;
+    if (score >= 8) return djCelebGif;
+    if (score >= 5) return djWaveGif;
+    return djIdleGif;
+  };
+
   return (
     <div className="app-container">
       {/* Full-screen crowd background */}
       <div className="crowd-gif-container">
         <img src={crowdGif} alt="Crowd" className="crowd-gif" />
       </div>
+
+      {/* DJ Animation Container - Show except on welcome screen */}
+      {!isWelcomeScreen && (isCrowdplayMode || isStrudelMode || isMixingMode) && (
+        <div className="dj-container">
+          <img 
+            src={getDjAnimation()} 
+            alt="DJ" 
+            className="dj-animation"
+          />
+        </div>
+      )}
 
       {/* Back Arrow and Game Controls - Show except on welcome screen */}
       {!isWelcomeScreen && (
@@ -167,13 +172,6 @@ function App() {
             </>
           )}
         </div>
-      )}
-
-      {/* DJ Area - Hide on welcome screen and mode selection screen */}
-      {!isWelcomeScreen && !isModeSelectionScreen && (
-        <header className="dj-area">
-          <img src={djSprite} alt="DJ" className="dj-sprite" />
-        </header>
       )}
 
       {/* Vibe Meter */}
@@ -202,6 +200,14 @@ function App() {
               } 
             />
             <Route path="/strudel" element={<StrudelPage />} />
+            <Route 
+              path="/mixing" 
+              element={
+                <MixingPage 
+                  onCrowdReaction={setCrowdReaction}
+                />
+              } 
+            />
           </Routes>
         </main>
       </div>

@@ -32,10 +32,9 @@ a:hover {
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #1a001a, #330033, #000000);
-  overflow: hidden;
+  font-family: 'Press Start 2P', monospace;
+  background: #1a001a;
+  color: white;
 }
 
 h1 {
@@ -75,4 +74,1373 @@ button:focus-visible {
     background-color: #f9f9f9;
     color: #213547;
   }
+}
+
+/* Mixing Mode Styles */
+.mixing-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  color: #fff;
+}
+
+.mixing-console {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #646cff;
+  box-shadow: 0 0 20px rgba(100, 108, 255, 0.3);
+}
+
+.deck {
+  flex: 1;
+  padding: 20px;
+  background: rgba(26, 27, 38, 0.9);
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.deck h3 {
+  margin: 0 0 15px 0;
+  color: #646cff;
+  text-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.deck-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.file-input {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  color: white;
+}
+
+.track-name {
+  font-size: 0.8em;
+  margin: 5px 0;
+  color: #a4a9ff;
+}
+
+.waveform-visualizer {
+  width: 100%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.mixer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(26, 27, 38, 0.9);
+  border-radius: 8px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.crossfader-container {
+  margin-top: auto;
+  padding: 20px;
+}
+
+.crossfader {
+  width: 200px;
+  height: 20px;
+  -webkit-appearance: none;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.crossfader::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  background: #646cff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.volume-slider {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.volume-slider-vertical {
+  width: 150px;
+  transform: rotate(-90deg);
+}
+
+.volume-slider-vertical::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #646cff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.eq-controls {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.eq-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.eq-slider label {
+  font-size: 0.7em;
+  color: #a4a9ff;
+}
+
+.eq-slider-vertical {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  transform: rotate(-90deg);
+}
+
+.eq-slider-vertical::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #646cff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Vinyl Disc Styles */
+.vinyl-disc {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #111 0%, #333 100%);
+  position: relative;
+  margin: 20px auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.5s ease;
+}
+
+.vinyl-disc.spinning {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vinyl-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #646cff 0%, #4a4a8f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.6em;
+  color: white;
+  padding: 5px;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.vinyl-grooves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.2) 0px,
+    rgba(0, 0, 0, 0.3) 1px,
+    rgba(0, 0, 0, 0.2) 2px
+  );
+}
+
+/* Deck Controls */
+.deck-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.transport-controls {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.transport-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.transport-button:hover:not(:disabled) {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.transport-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.track-time {
+  font-family: 'Press Start 2P';
+  font-size: 0.8em;
+  color: #646cff;
+  text-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+.bpm-display {
+  font-family: 'Press Start 2P';
+  font-size: 0.8em;
+  color: #ff4a4a;
+  text-shadow: 0 0 5px rgba(255, 74, 74, 0.5);
+}
+
+/* Effects Controls */
+.effects-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.effect-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.effect-slider label {
+  font-size: 0.7em;
+  color: #a4a9ff;
+}
+
+.effect-slider-horizontal {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+
+.effect-slider-horizontal::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #646cff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+/* Pitch Control */
+.pitch-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.pitch-slider {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  transform: rotate(-90deg);
+}
+
+.pitch-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #ff4a4a;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+.pitch-value {
+  font-size: 0.7em;
+  color: #ff4a4a;
+  text-shadow: 0 0 5px rgba(255, 74, 74, 0.5);
+}
+
+/* Loop Controls */
+.loop-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.loop-button {
+  width: 100%;
+  padding: 8px;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.loop-button.active {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.loop-length {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.loop-length-button {
+  flex: 1;
+  padding: 5px;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.loop-length-button.active {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+/* Beat Sync Controls */
+.sync-controls {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.sync-button {
+  padding: 8px 15px;
+  background: rgba(255, 74, 74, 0.2);
+  border: 1px solid rgba(255, 74, 74, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sync-button:hover {
+  background: rgba(255, 74, 74, 0.4);
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+.sync-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Beat Indicator */
+.beat-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 74, 74, 0.2);
+  margin: 0 5px;
+  transition: all 0.1s ease;
+}
+
+.beat-indicator.active {
+  background: #ff4a4a;
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+/* Hot Cues */
+.hot-cues {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.cue-button {
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  background: rgba(255, 74, 74, 0.2);
+  border: 1px solid rgba(255, 74, 74, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8em;
+}
+
+.cue-button:hover {
+  background: rgba(255, 74, 74, 0.4);
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+.cue-button.active {
+  background: rgba(255, 74, 74, 0.6);
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.7);
+}
+
+/* Filter Control */
+.filter-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.filter-control label {
+  font-size: 0.7em;
+  color: #a4a9ff;
+}
+
+.filter-slider-vertical {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  transform: rotate(-90deg);
+}
+
+.filter-slider-vertical::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #a4a9ff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(164, 169, 255, 0.5);
+}
+
+/* Beat Effects */
+.beat-effects {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.beat-effects .effect-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.beat-effects .effect-slider label {
+  font-size: 0.7em;
+  color: #ff4a4a;
+  text-shadow: 0 0 5px rgba(255, 74, 74, 0.5);
+}
+
+.beat-effects .effect-slider-horizontal {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+
+.beat-effects .effect-slider-horizontal::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #ff4a4a;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+/* Track Overview */
+.track-overview {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.waveform-overview {
+  width: 100%;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #646cff;
+  text-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+/* Beat Grid */
+.beat-grid {
+  width: 100%;
+  padding: 0 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.beat-grid-canvas {
+  width: 100%;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+/* Key Display */
+.key-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.key-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.key-label {
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #a4a9ff;
+}
+
+.key-value {
+  font-family: 'Press Start 2P';
+  font-size: 1em;
+  color: #646cff;
+  text-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+.key-compatibility {
+  font-family: 'Press Start 2P';
+  font-size: 0.6em;
+  text-align: center;
+  text-shadow: 0 0 5px currentColor;
+}
+
+/* Sample Pads */
+.sample-pads {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.sample-pads h4 {
+  margin: 0;
+  font-size: 0.8em;
+  color: #a4a9ff;
+  text-align: center;
+}
+
+.pad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.pad-button {
+  aspect-ratio: 1;
+  padding: 0;
+  font-size: 0.6em;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.pad-button:hover {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.pad-button:active {
+  background: rgba(100, 108, 255, 0.6);
+  transform: scale(0.95);
+}
+
+.pad-button.loading {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.pad-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Recording Controls */
+.recording-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.recording-controls h4 {
+  margin: 0;
+  font-size: 0.8em;
+  color: #a4a9ff;
+  text-align: center;
+}
+
+.recording-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.recording-name-input {
+  width: 100%;
+  padding: 5px;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 4px;
+}
+
+.recording-duration {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #ff4a4a;
+}
+
+.recording-indicator {
+  color: #ff4a4a;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.recording-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.record-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 74, 74, 0.2);
+  border: 1px solid rgba(255, 74, 74, 0.5);
+  color: #ff4a4a;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.record-button:hover {
+  background: rgba(255, 74, 74, 0.4);
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+.record-button.active {
+  background: rgba(255, 74, 74, 0.6);
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.7);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Effect Chain */
+.effect-chain {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.effect-chain h4 {
+  margin: 0;
+  font-size: 0.8em;
+  color: #a4a9ff;
+  text-align: center;
+}
+
+.effect-chain-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.preset-selector {
+  flex: 1;
+  padding: 5px;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.preset-selector:hover {
+  border-color: rgba(100, 108, 255, 0.5);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.3);
+}
+
+.preset-selector option {
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Press Start 2P';
+  font-size: 0.9em;
+  padding: 5px;
+}
+
+.preset-selector:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.effect-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 40px;
+}
+
+.effect-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 0.7em;
+  color: #fff;
+  cursor: grab;
+  transition: all 0.3s ease;
+}
+
+.effect-item:hover {
+  box-shadow: 0 0 10px currentColor;
+}
+
+.effect-item.dragging {
+  box-shadow: 0 0 15px currentColor;
+  opacity: 0.8;
+}
+
+.effect-name {
+  font-family: 'Press Start 2P';
+}
+
+.effect-handle {
+  color: rgba(255, 255, 255, 0.5);
+  cursor: grab;
+}
+
+/* Track Library */
+.track-library {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+  min-height: 300px;
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.library-header h4 {
+  margin: 0;
+  font-size: 0.8em;
+  color: #a4a9ff;
+}
+
+.library-search {
+  flex: 1;
+  padding: 5px;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 4px;
+}
+
+.library-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(100, 108, 255, 0.2);
+  padding: 5px;
+}
+
+.table-header > div {
+  font-size: 0.7em;
+  color: #a4a9ff;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s ease;
+}
+
+.table-header > div:hover {
+  color: #646cff;
+  text-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.table-row:hover {
+  background: rgba(100, 108, 255, 0.2);
+}
+
+.table-row > div {
+  font-size: 0.7em;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.library-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7em;
+  color: #646cff;
+}
+
+.library-hint {
+  color: #a4a9ff;
+  font-style: italic;
+}
+
+/* MIDI Learn */
+.midi-learn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.7em;
+}
+
+.midi-learn-button {
+  padding: 3px 8px;
+  font-size: 0.9em;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.midi-learn-button:hover {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.midi-learn-button.learning {
+  background: rgba(255, 74, 74, 0.4);
+  border-color: rgba(255, 74, 74, 0.5);
+  animation: pulse 1s infinite;
+}
+
+.midi-learn-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.midi-mapping {
+  color: #a4a9ff;
+  font-family: 'Press Start 2P';
+}
+
+/* Sample Bank Selector */
+.sample-bank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.bank-selector {
+  flex: 1;
+  padding: 5px;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bank-selector:hover {
+  border-color: rgba(100, 108, 255, 0.5);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.3);
+}
+
+.bank-selector option {
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Press Start 2P';
+  font-size: 0.9em;
+  padding: 5px;
+}
+
+/* Recording Settings */
+.recording-settings {
+  display: flex;
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.format-selector,
+.quality-selector {
+  flex: 1;
+  padding: 5px;
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.format-selector:hover,
+.quality-selector:hover {
+  border-color: rgba(100, 108, 255, 0.5);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.3);
+}
+
+.format-selector option,
+.quality-selector option {
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Press Start 2P';
+  font-size: 0.9em;
+  padding: 5px;
+}
+
+.format-selector:disabled,
+.quality-selector:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Keyboard Shortcuts */
+.shortcut-help {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.shortcut-help h4 {
+  margin: 0;
+  font-size: 0.8em;
+  color: #a4a9ff;
+  text-align: center;
+}
+
+.shortcut-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.shortcut-category {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shortcut-category h5 {
+  margin: 0;
+  font-size: 0.7em;
+  color: #646cff;
+  text-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+.shortcut-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.shortcut-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  font-size: 0.7em;
+}
+
+.shortcut-description {
+  color: #fff;
+}
+
+.shortcut-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.shortcut-key {
+  padding: 3px 8px;
+  font-family: 'Press Start 2P';
+  font-size: 0.9em;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+  text-align: center;
+}
+
+.shortcut-key:hover {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.shortcut-key.learning {
+  background: rgba(255, 74, 74, 0.4);
+  border-color: rgba(255, 74, 74, 0.5);
+  animation: pulse 1s infinite;
+}
+
+.shortcut-reset {
+  padding: 3px;
+  width: 24px;
+  height: 24px;
+  font-size: 0.9em;
+  background: rgba(255, 74, 74, 0.2);
+  border: 1px solid rgba(255, 74, 74, 0.5);
+  color: #ff4a4a;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcut-reset:hover {
+  background: rgba(255, 74, 74, 0.4);
+  box-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+}
+
+/* Track Analysis */
+.track-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.analysis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.analysis-header h4 {
+  margin: 0;
+  font-size: 0.8em;
+  color: #a4a9ff;
+}
+
+.analysis-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-label {
+  font-size: 0.7em;
+  color: #a4a9ff;
+}
+
+.stat-value {
+  font-family: 'Press Start 2P';
+  font-size: 0.9em;
+  color: #646cff;
+  text-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+.stat-confidence {
+  font-size: 0.6em;
+  color: #ff4a4a;
+  margin-left: 5px;
+}
+
+.analysis-view-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.view-button {
+  flex: 1;
+  padding: 5px;
+  font-size: 0.7em;
+  background: rgba(100, 108, 255, 0.2);
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-button:hover {
+  background: rgba(100, 108, 255, 0.4);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.5);
+}
+
+.view-button.active {
+  background: rgba(100, 108, 255, 0.6);
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.7);
+}
+
+.analysis-canvas {
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.energy-bands {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.energy-band {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.band-label {
+  font-size: 0.7em;
+  color: #a4a9ff;
+  width: 80px;
+}
+
+.band-meter {
+  flex: 1;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.band-fill {
+  height: 100%;
+  background: #646cff;
+  transition: width 0.3s ease;
+}
+
+.band-value {
+  font-family: 'Press Start 2P';
+  font-size: 0.7em;
+  color: #646cff;
+  width: 50px;
+  text-align: right;
 }
